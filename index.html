@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personal Expense Tracking</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+
+<div class="app">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+
+        <div class="logo">
+            <div class="logo-icon">₹</div>
+            <div>
+                <h2>ExpensePro</h2>
+                <small>PERSONAL FINANCE</small>
+            </div>
+        </div>
+
+        <div class="nav-title">MENU</div>
+
+        <nav>
+            <a href="#dashboard" class="nav-link active">▦ Dashboard</a>
+            <a href="#transactions" class="nav-link">↔ Transactions</a>
+            <a href="#analytics" class="nav-link">◔ Analytics</a>
+            <a href="#categories" class="nav-link">☷ Categories</a>
+        </nav>
+
+        <div class="sidebar-bottom">
+            <div class="side-card">
+                <span>💡</span>
+                <h3>Smart Money Habits</h3>
+                <p>Track every rupee. Build a better financial future.</p>
+            </div>
+
+            <p class="sidebar-footer">Personal Expense Tracking © 2026</p>
+        </div>
+
+    </aside>
+
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+
+        <header class="topbar">
+
+            <div>
+                <p class="welcome">PERSONAL FINANCE DASHBOARD</p>
+                <h1>Personal Expense Tracking 👋</h1>
+                <p class="subtitle">Manage your money smarter, every day.</p>
+            </div>
+
+            <button class="primary-btn" id="addTransactionBtn">
+                + Add Transaction
+            </button>
+
+        </header>
+
+
+        <!-- SUMMARY CARDS -->
+        <section class="summary-grid" id="dashboard">
+
+            <div class="summary-card balance-card">
+                <div class="card-heading">
+                    <span>Current Balance</span>
+                    <span class="card-icon">💰</span>
+                </div>
+
+                <h2 id="balance">₹0.00</h2>
+                <p>Income − Expenses</p>
+            </div>
+
+
+            <div class="summary-card income-card">
+                <div class="card-heading">
+                    <span>Total Income</span>
+                    <span class="card-icon">📈</span>
+                </div>
+
+                <h2 id="totalIncome">₹0.00</h2>
+                <p>Money coming in</p>
+            </div>
+
+
+            <div class="summary-card expense-card">
+                <div class="card-heading">
+                    <span>Total Expenses</span>
+                    <span class="card-icon">💸</span>
+                </div>
+
+                <h2 id="totalExpense">₹0.00</h2>
+                <p>Money going out</p>
+            </div>
+
+
+            <div class="summary-card savings-card">
+                <div class="card-heading">
+                    <span>This Month</span>
+                    <span class="card-icon">📅</span>
+                </div>
+
+                <h2 id="monthlyBalance">₹0.00</h2>
+                <p id="currentMonth">Monthly net balance</p>
+            </div>
+
+        </section>
+
+
+        <!-- CHARTS -->
+        <section class="charts-grid" id="analytics">
+
+            <div class="panel chart-panel">
+
+                <div class="panel-header">
+                    <div>
+                        <h3>Expense Analytics</h3>
+                        <p>Understand your spending habits</p>
+                    </div>
+
+                    <select id="chartType">
+                        <option value="category">By Category</option>
+                        <option value="month">By Month</option>
+                    </select>
+                </div>
+
+                <div class="chart-container">
+                    <canvas id="expenseChart"></canvas>
+                    <p id="chartEmpty" class="empty-chart">
+                        Add expenses to view your chart.
+                    </p>
+                </div>
+
+            </div>
+
+
+            <div class="panel monthly-panel">
+
+                <div class="panel-header">
+                    <div>
+                        <h3>Monthly Summary</h3>
+                        <p>Your current month's financial activity</p>
+                    </div>
+                </div>
+
+                <div class="monthly-item">
+                    <span>🟢 Monthly Income</span>
+                    <strong id="monthIncome">₹0.00</strong>
+                </div>
+
+                <div class="monthly-item">
+                    <span>🔴 Monthly Expenses</span>
+                    <strong id="monthExpense">₹0.00</strong>
+                </div>
+
+                <div class="monthly-item net-item">
+                    <span>💎 Net Savings</span>
+                    <strong id="netSavings">₹0.00</strong>
+                </div>
+
+                <div class="progress-title">
+                    <span>Monthly income spent</span>
+                    <span id="spentPercentage">0%</span>
+                </div>
+
+                <div class="progress-bar">
+                    <div id="spentProgress"></div>
+                </div>
+
+                <p class="hint">
+                    Keep tracking your expenses to improve your savings.
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <!-- TRANSACTIONS -->
+        <section class="panel transaction-panel" id="transactions">
+
+            <div class="panel-header">
+                <div>
+                    <h3>Transaction History</h3>
+                    <p>Search, filter and manage all transactions</p>
+                </div>
+
+                <button class="secondary-btn" id="viewAllBtn">
+                    View All
+                </button>
+            </div>
+
+
+            <!-- FILTERS -->
+            <div class="filters">
+
+                <input
+                    type="search"
+                    id="searchInput"
+                    placeholder="🔍 Search description..."
+                >
+
+                <select id="filterType">
+                    <option value="all">All Types</option>
+                    <option value="income">Income</option>
+                    <option value="expense">Expense</option>
+                </select>
+
+                <select id="filterCategory">
+                    <option value="all">All Categories</option>
+                </select>
+
+                <label class="date-field">
+                    From
+                    <input type="date" id="startDate">
+                </label>
+
+                <label class="date-field">
+                    To
+                    <input type="date" id="endDate">
+                </label>
+
+                <button class="clear-btn" id="clearFilters">
+                    Clear
+                </button>
+
+            </div>
+
+
+            <div class="table-wrapper">
+
+                <table>
+
+                    <thead>
+                        <tr>
+                            <th>DESCRIPTION</th>
+                            <th>CATEGORY</th>
+                            <th>DATE</th>
+                            <th>TYPE</th>
+                            <th>AMOUNT</th>
+                            <th>ACTIONS</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="transactionList"></tbody>
+
+                </table>
+
+            </div>
+
+            <div id="emptyState" class="empty-state">
+                <div class="empty-icon">📋</div>
+                <h3>No Transactions Found</h3>
+                <p>Add your first transaction to get started.</p>
+                <button class="primary-btn" id="emptyAddBtn">
+                    + Add Transaction
+                </button>
+            </div>
+
+            <div class="table-footer">
+                <span id="transactionCount">0 transactions</span>
+                <span>🔒 Saved locally on this device</span>
+            </div>
+
+        </section>
+
+
+        <!-- CATEGORY MANAGEMENT -->
+        <section class="panel category-panel" id="categories">
+
+            <div class="panel-header">
+                <div>
+                    <h3>Manage Categories</h3>
+                    <p>Create and organize your transaction categories</p>
+                </div>
+            </div>
+
+            <form id="categoryForm" class="category-form">
+
+                <input
+                    type="text"
+                    id="newCategory"
+                    placeholder="Enter a new category"
+                    maxlength="30"
+                    required
+                >
+
+                <button type="submit" class="primary-btn">
+                    + Add Category
+                </button>
+
+            </form>
+
+            <div id="categoryList" class="category-list"></div>
+
+        </section>
+
+
+        <footer>
+            <p>Personal Expense Tracking | Made with ❤️</p>
+        </footer>
+
+    </main>
+
+</div>
+
+
+<!-- ADD / EDIT TRANSACTION MODAL -->
+<div class="modal" id="transactionModal">
+
+    <div class="modal-content">
+
+        <div class="modal-header">
+            <div>
+                <p class="welcome">TRANSACTION DETAILS</p>
+                <h2 id="modalTitle">Add Transaction</h2>
+            </div>
+
+            <button class="close-btn" id="closeModal">×</button>
+        </div>
+
+
+        <form id="transactionForm">
+
+            <input type="hidden" id="transactionId">
+
+            <label>Transaction Type</label>
+
+            <div class="type-buttons">
+
+                <button type="button" class="type-btn active" data-type="expense">
+                    🔴 Expense
+                </button>
+
+                <button type="button" class="type-btn" data-type="income">
+                    🟢 Income
+                </button>
+
+            </div>
+
+            <input type="hidden" id="transactionType" value="expense">
+
+
+            <label for="description">Description</label>
+
+            <input
+                type="text"
+                id="description"
+                placeholder="Example: Grocery Shopping"
+                maxlength="80"
+                required
+            >
+
+
+            <div class="form-row">
+
+                <div>
+                    <label for="amount">Amount (₹)</label>
+
+                    <input
+                        type="number"
+                        id="amount"
+                        placeholder="0.00"
+                        min="0.01"
+                        step="0.01"
+                        required
+                    >
+                </div>
+
+                <div>
+                    <label for="date">Date</label>
+                    <input type="date" id="date" required>
+                </div>
+
+            </div>
+
+
+            <label for="category">Category</label>
+            <select id="category" required></select>
+
+
+            <label for="notes">Notes (Optional)</label>
+
+            <textarea
+                id="notes"
+                rows="3"
+                placeholder="Additional details..."
+                maxlength="250"
+            ></textarea>
+
+
+            <div class="modal-actions">
+
+                <button type="button" class="secondary-btn" id="cancelModal">
+                    Cancel
+                </button>
+
+                <button type="submit" class="primary-btn">
+                    Save Transaction
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<div id="toast" class="toast"></div>
+
+<script src="script.js"></script>
+
+</body>
+</html>
